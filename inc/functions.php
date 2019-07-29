@@ -32,7 +32,7 @@
 	}
 	
 	// Função que adiciona funcionario ao json
-	function addFuncionario($nome,$email,$senha){
+	function addFuncionario($nome,$email,$senha,$foto){
 
 		// Carregando os funcionarios
 		$funcionarios = getFuncionarios();
@@ -41,7 +41,8 @@
 		$funcionarios[] = [
 			'nome' => $nome,
 			'email' => $email,
-			'senha' => password_hash($senha,PASSWORD_DEFAULT)
+			'senha' => password_hash($senha,PASSWORD_DEFAULT),
+			'foto' => $foto
 		];
 		
 		// Transformando o array funcionarios numa string json

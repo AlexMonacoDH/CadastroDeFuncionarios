@@ -8,20 +8,33 @@
 		// Verificando o post
 		$erros = errosNoPost();
 
-		if(count($erros) == 0){
+		// Verificando se arquivo chegou
+		if(($_FILES)['foto']){
+			if(($_FILES)['foto']['error'] == 0){
+				//salvar a foto de forma decente
+				move_uploaded_file($_FILES['foto']['tmp_name'],'./fotos/'.$_FILES['foto']['name']);
 
-			// Adicionar funcionario ao arquivo json
-			addFuncionario($_POST['nome'],$_POST['email'],$_POST['senha']);
-		
+				//salvando o nome do arquivo definitivo
+				$arquivo_def = './fotos/'.$_FILES['foto']['name'];
+			}
+			else {
+				$erros[] = 'errUpload';
+			}
 		}
 
-	} else {
+			if(count($erros) == 0){
 
-		// Garantindo que um vetor de erros exista
-		// ainda que vazio quando não houver POST
-		$erros = [];
+				// Adicionar funcionario ao arquivo json
+				addFuncionario($_POST['nome'],$_POST['email'],$_POST['senha'],$arquivo_def);
+			}
+		
+		}
+		else {
+			// Garantindo que um vetor de erros exista
+			// ainda que vazio quando não houver POST
+			$erros = [];
+		}
 
-	}
 
 	// errNome será true se o campo nome for inválido e false se o campo estiver ok. 
 	$errNome = in_array('errNome',$erros);
@@ -46,6 +59,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Cadastro de Funcionários</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">	
+	<link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 	<div class="container">
@@ -53,6 +67,7 @@
 			<ul class="col-sm-12 col-md-4 list-group">
 				<?php foreach($funcionarios as $c): ?>
 				<li class="list-group-item">
+					<img src="<?= $c['foto'];  ?>" alt="<?= $c['nome'];  ?>">
 					<span><?= $c['nome'];  ?></span> : 
 					<span><?= $c['email'];  ?></span>
 				</li>
@@ -73,7 +88,7 @@
 						
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<label for="email">E-mail</label>
 					<input value="" type="email" class="form-control <?= ($errEmail?'is-invalid':'')?>" id="email" name="email" placeholder="Digite o e-mail do funcionário">
