@@ -11,6 +11,10 @@
             header('location: index.php');
         }
     }
+
+    if($loginOK == false){
+        echo 'erro no login';
+    }
     else{
         $loginOK = true;
     }

@@ -58,12 +58,20 @@
 				</li>
 				<?php endforeach; ?>
 			</ul>
-			<form class="col-sm-12 col-md-8" action="cadastro.php" method="post">
+			<form class="col-sm-12 col-md-8" action="cadastro.php" method="post" enctype="multipart/form-data">
 				
 				<div class="form-group">
 					<label for="nome">Nome</label>
 					<input value="" type="text" class="form-control <?= ($errNome?'is-invalid':'')?>" id="nome" name="nome" placeholder="Digite o nome do funcionário">
 					<?php if($errNome): ?><div class="invalid-feedback">Preencha o nome corretamente.</div><?php endif; ?>
+				</div>
+
+				<div class="form-group">
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" name="foto" id="foto" required>
+						<label class="custom-file-label" for="foto">Escolha uma foto...</label>
+						
+					</div>
 				</div>
 				
 				<div class="form-group">
